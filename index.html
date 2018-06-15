@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>DHL</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+
+
+	<div id="popUp">
+		<div id="closePopUp">
+			<p>x</p>
+		</div>
+		<h2 id="popUpTitle"></h2>
+		<div>
+			<input class="forms" id="formDate" type="text" name="date" placeholder="dd.mm.yyyy"><label for="date">Please enter the date</label>
+			<br />
+			<input class="forms" id="formAmount" type="text" name="sum"><label for="date">CZK</label>
+		</div>
+
+		<div>
+			<label for="date"> Provide short description</label>
+			<br />
+			<textarea maxlength="25" class="forms" id="formDescr"></textarea>
+		</div>
+
+		<div id="submitEntry">
+			<h4>SUBMIT</h4>
+		</div>
+
+	</div>
+
+	<div id="Wrapper">
+			
+		<div id="header">
+			<p>Balance</p>
+			<h1 id="balanceSum">0 CZK</h1>
+			<div id="spendEarnSum">
+				<p id="incomeSum" class="incomeP">Income: 0 CZK</p>
+				<p id="expenseSum" class="spendingP">Spendings: 0 CZK</p>
+			</div>
+
+		</div>
+
+		<div id="body">
+			<ul id="allEntries"></ul>
+		</div>
+		<div id="footer">
+			<div>
+				<h3 id="addIncome" class="footerBtn One">Add Income</h3>
+			</div>
+			<div>
+				<h3 id="addExpense" class="footerBtn Two">Add Spending</h3>
+			</div>
+		</div>
+
+
+	</div>
+
+
+<script type="text/javascript" src="script.js" ></script>
+</body>
+</html>
