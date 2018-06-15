@@ -7,417 +7,413 @@ console.log("loaded");
 
 var finance = {
 
-	balance: 0,
-	income: 0,
-	expense: 0,
-	addedEntries: [],
-	recountBalance: function(){
+    balance: 0,
+    income: 0,
+    expense: 0,
+    addedEntries: [],
+    recountBalance: function() {
 
-		var self = finance;
+        var self = finance;
 
-		setTimeout(function(){
+        setTimeout(function() {
 
-			self.balance = 0;
+            self.balance = 0;
 
-			self.income = 0;
+            self.income = 0;
 
-			self.expense = 0;
+            self.expense = 0;
 
-			self.addedEntries.forEach(function(entryElement){
+            self.addedEntries.forEach(function(entryElement) {
 
-				self.balance += parseInt(entryElement.amount);
-				entryElement.amount < 0 ? self.expense += entryElement.amount : self.income += entryElement.amount;
+                self.balance += parseInt(entryElement.amount);
+                entryElement.amount < 0 ? self.expense += entryElement.amount : self.income += entryElement.amount;
 
-			});
+            });
 
-			var balanceSum = document.getElementById("balanceSum");
-			var incomeSum = document.getElementById("incomeSum");
-			var expenseSum = document.getElementById("expenseSum");
+            var balanceSum = document.getElementById("balanceSum");
+            var incomeSum = document.getElementById("incomeSum");
+            var expenseSum = document.getElementById("expenseSum");
 
-			balanceSum.innerHTML = self.balance+" CZK";
-			incomeSum.innerHTML = "Income: "+self.income+" CZK";
-			expenseSum.innerHTML = "Spendings: "+self.expense+" CZK";
+            balanceSum.innerHTML = self.balance + " CZK";
+            incomeSum.innerHTML = "Income: " + self.income + " CZK";
+            expenseSum.innerHTML = "Spendings: " + self.expense + " CZK";
 
-			localStorage.remember = JSON.stringify(self.addedEntries); 
+            localStorage.remember = JSON.stringify(self.addedEntries);
 
 
-		}, 0); //timeout to make sure that other entries executed before the function
-	},
+        }, 0); //timeout to make sure that other entries executed before the function
+    },
 
-	financeObject: function(date, amount, descrip, exType, originalName, callback){
+    financeObject: function(date, amount, descrip, exType, originalName, callback) {
 
 
-		this.date = date;
-		this.amount = parseInt(amount);
-		this.descrip = descrip;
-		this.exType = exType;
-		this.originalName = originalName;
+        this.date = date;
+        this.amount = parseInt(amount);
+        this.descrip = descrip;
+        this.exType = exType;
+        this.originalName = originalName;
 
-		if( exType != "income" ){
+        if (exType != "income") {
 
-			this.amount = -amount;
+            this.amount = -amount;
 
-		}
+        }
 
-		callback();
+        callback();
 
 
-	},
+    },
 
-	sessionRestore: (function(){
-			
-		setTimeout(function(){
+    sessionRestore: (function() {
 
+        setTimeout(function() {
 
-			if( localStorage.remember ){
 
-				var restoredObj = JSON.parse(localStorage.remember);
+            if (localStorage.remember) {
 
-				finance.addedEntries = restoredObj;
+                var restoredObj = JSON.parse(localStorage.remember);
 
-			}
+                finance.addedEntries = restoredObj;
 
-			finance.addedEntries.forEach(function(element){
+            }
 
-				var ul = document.getElementById("allEntries");
+            finance.addedEntries.forEach(function(element) {
 
-				var newLi = document.createElement("LI");
+                var ul = document.getElementById("allEntries");
 
-				var newExpWrap = document.createElement("DIV");
+                var newLi = document.createElement("LI");
 
-				var newEntryF = document.createElement("DIV");
+                var newExpWrap = document.createElement("DIV");
 
-				var newEntryFP = document.createElement("P");
+                var newEntryF = document.createElement("DIV");
 
-				var newEntryFH2 = document.createElement("H2");
+                var newEntryFP = document.createElement("P");
 
-				var newEntryS = document.createElement("DIV");
+                var newEntryFH2 = document.createElement("H2");
 
-				var newEntrySH3 = document.createElement("H3");
+                var newEntryS = document.createElement("DIV");
 
-				var newEntryT = document.createElement("DIV");
+                var newEntrySH3 = document.createElement("H3");
 
-				var newEntryTImg = document.createElement("DIV");
+                var newEntryT = document.createElement("DIV");
 
-				var exType = element.exType;
+                var newEntryTImg = document.createElement("DIV");
 
-				newEntryF.classList.add("entryFirst");
+                var exType = element.exType;
 
-				newEntryFP.classList.add("date");
+                newEntryF.classList.add("entryFirst");
 
-				newEntryFH2.classList.add("spendingLog");
+                newEntryFP.classList.add("date");
 
-				newEntryS.classList.add("entrySecond");
+                newEntryFH2.classList.add("spendingLog");
 
-				newEntrySH3.classList.add("expenseExplanation");
+                newEntryS.classList.add("entrySecond");
 
-				newEntryT.classList.add("entryThird");
+                newEntrySH3.classList.add("expenseExplanation");
 
-				newEntryTImg.classList.add("removeEntry");
+                newEntryT.classList.add("entryThird");
 
-				newExpWrap.classList.add("expenseWrap");
+                newEntryTImg.classList.add("removeEntry");
 
-				newEntryF.appendChild(newEntryFP);
-				newEntryF.appendChild(newEntryFH2);
-				newExpWrap.appendChild(newEntryF);
-				newEntryS.appendChild(newEntrySH3);
-				newExpWrap.appendChild(newEntryS);
-				newEntryT.appendChild(newEntryTImg);
-				newExpWrap.appendChild(newEntryT);
-				newLi.appendChild(newExpWrap);
-				ul.appendChild(newLi);
+                newExpWrap.classList.add("expenseWrap");
 
-				newEntrySH3.innerText = element.descrip;
-				newEntryFP.innerText = element.date;
-				newEntryFH2.innerText = parseInt(element.amount)+" CZK";
+                newEntryF.appendChild(newEntryFP);
+                newEntryF.appendChild(newEntryFH2);
+                newExpWrap.appendChild(newEntryF);
+                newEntryS.appendChild(newEntrySH3);
+                newExpWrap.appendChild(newEntryS);
+                newEntryT.appendChild(newEntryTImg);
+                newExpWrap.appendChild(newEntryT);
+                newLi.appendChild(newExpWrap);
+                ul.appendChild(newLi);
 
+                newEntrySH3.innerText = element.descrip;
+                newEntryFP.innerText = element.date;
+                newEntryFH2.innerText = parseInt(element.amount) + " CZK";
 
 
-				if( exType == "income" || exType == "expense"  ){ //assign the color to expense/income
 
-					exType == "income"? newEntryFH2.classList.add("income") : newEntryFH2.classList.add("expense");
+                if (exType == "income" || exType == "expense") { //assign the color to expense/income
 
-				}
+                    exType == "income" ? newEntryFH2.classList.add("income") : newEntryFH2.classList.add("expense");
 
-			});
+                }
 
-			var forCounter = 0;
+            });
 
-			var trashCans = document.getElementsByClassName("removeEntry");
+            var forCounter = 0;
 
-			for( forCounter = 0; forCounter < trashCans.length; forCounter++ ){
+            var trashCans = document.getElementsByClassName("removeEntry");
 
-				trashCans[forCounter].addEventListener("click", buttonControls.removeEntry);
+            for (forCounter = 0; forCounter < trashCans.length; forCounter++) {
 
-			}
+                trashCans[forCounter].addEventListener("click", buttonControls.removeEntry);
 
-			finance.recountBalance(); //calculates the balance again after changes made
+            }
 
-		}, 0);	
+            finance.recountBalance(); //calculates the balance again after changes made
 
+        }, 0);
 
 
-	}())
+
+    }())
 
 };
 
 
 var buttonControls = {
 
-	wrapper: document.getElementById("Wrapper"),
-	buttons: document.getElementsByClassName("footerBtn"),
-	closeIt: document.getElementById("closePopUp"),
-	exType: undefined,
-	submitBtn: document.getElementById("submitEntry"),
-	forms: document.getElementsByClassName("forms"), //input fields in the pop-up
-	
+    wrapper: document.getElementById("Wrapper"),
+    buttons: document.getElementsByClassName("footerBtn"),
+    closeIt: document.getElementById("closePopUp"),
+    exType: undefined,
+    submitBtn: document.getElementById("submitEntry"),
+    forms: document.getElementsByClassName("forms"), //input fields in the pop-up
 
-	assignEvent: function(){
 
-		this.closeIt.addEventListener("click", this.addEntry);
-		this.submitBtn.addEventListener("click", this.submitEntry); //DOM creation'
+    assignEvent: function() {
 
-		var i;
+        this.closeIt.addEventListener("click", this.addEntry);
+        this.submitBtn.addEventListener("click", this.submitEntry); //DOM creation'
 
-		for( i = 0; i < this.forms.length; i++){
+        var i;
 
-			this.forms[i].addEventListener("input", this.validateForm )
-		}
+        for (i = 0; i < this.forms.length; i++) {
 
-		for(i = 0; i< this.buttons.length; i++){
+            this.forms[i].addEventListener("input", this.validateForm)
+        }
 
-			this.buttons[i].addEventListener("click", this.addEntry );
-		}
-	},
+        for (i = 0; i < this.buttons.length; i++) {
 
-	addEntry: function (e){
+            this.buttons[i].addEventListener("click", this.addEntry);
+        }
+    },
 
-		//takes actions if event fired on one of the buttons then takes actions depending on which
-		if( e.target.id == "addIncome" || e.target.id == "addExpense" || e.target.id == "closePopUp" || e.target.parentNode.id == "closePopUp"){
+    addEntry: function(e) {
 
-			document.getElementById("popUp").classList.add("popUpActive"); //brings the pop-up to be visible
-			buttonControls.wrapper.classList.contains("WrapWhenPop")? {} : buttonControls.wrapper.classList.add("WrapWhenPop");  //applies blur to wrapper
+        //takes actions if event fired on one of the buttons then takes actions depending on which
+        if (e.target.id == "addIncome" || e.target.id == "addExpense" || e.target.id == "closePopUp" || e.target.parentNode.id == "closePopUp") {
 
-			if( e.target.id == "addIncome" ){
+            document.getElementById("popUp").classList.add("popUpActive"); //brings the pop-up to be visible
+            buttonControls.wrapper.classList.contains("WrapWhenPop") ? {} : buttonControls.wrapper.classList.add("WrapWhenPop"); //applies blur to wrapper
 
-				document.getElementById("popUpTitle").innerHTML = "NEW INCOME ENTRY";
-				buttonControls.exType = "income";
+            if (e.target.id == "addIncome") {
 
-			}else if( e.target.id == "addExpense" ){
+                document.getElementById("popUpTitle").innerHTML = "NEW INCOME ENTRY";
+                buttonControls.exType = "income";
 
-				document.getElementById("popUpTitle").innerHTML = "NEW EXPENSE ENTRY";
-				buttonControls.exType = "expense";
+            } else if (e.target.id == "addExpense") {
 
-			}else if( e.target.id == "closePopUp" || e.target.parentNode.id == "closePopUp" ){
+                document.getElementById("popUpTitle").innerHTML = "NEW EXPENSE ENTRY";
+                buttonControls.exType = "expense";
 
-				buttonControls.wrapper.classList.remove("WrapWhenPop");
-				document.getElementById("popUp").classList.remove("popUpActive");
+            } else if (e.target.id == "closePopUp" || e.target.parentNode.id == "closePopUp") {
 
-			}
+                buttonControls.wrapper.classList.remove("WrapWhenPop");
+                document.getElementById("popUp").classList.remove("popUpActive");
 
-		}
+            }
 
-	},
+        }
 
-	removeEntry: function(e){
+    },
 
-		var liParent = e.target.parentElement;
+    removeEntry: function(e) {
 
-		while( liParent.className != "expenseWrap" ){
+        var liParent = e.target.parentElement;
 
-			liParent = liParent.parentElement;
+        while (liParent.className != "expenseWrap") {
 
-		}
+            liParent = liParent.parentElement;
 
-		var deleteDate =  liParent.childNodes[0].childNodes[0].innerHTML;
-		var deleteAmount = parseInt(liParent.childNodes[0].childNodes[1].innerHTML);
-		var deleteDesc = liParent.childNodes[1].childNodes[0].innerHTML;
+        }
 
-		while( liParent.tagName != "LI" && liParent.tagName != "BODY" ){ //loops till finds parent element with LI tag or BODY
-																		 //Body added to avoid infinite loops
+        var deleteDate = liParent.childNodes[0].childNodes[0].innerHTML;
+        var deleteAmount = parseInt(liParent.childNodes[0].childNodes[1].innerHTML);
+        var deleteDesc = liParent.childNodes[1].childNodes[0].innerHTML;
 
-			liParent = liParent.parentElement;
+        while (liParent.tagName != "LI" && liParent.tagName != "BODY") { //loops till finds parent element with LI tag or BODY
+            //Body added to avoid infinite loops
 
-		}
+            liParent = liParent.parentElement;
 
-		if( liParent.parentElement.tagName == "UL" ){
+        }
 
-			liParent.parentElement.removeChild(liParent);
+        if (liParent.parentElement.tagName == "UL") {
 
-		}else if( liParent.parentElement.tagName == "BODY" ){
+            liParent.parentElement.removeChild(liParent);
 
-			throw "Unable to locate a parent element to be removed"; //throws an error if loops back to BODY
-		}
+        } else if (liParent.parentElement.tagName == "BODY") {
 
-		finance.addedEntries.forEach(function(element){
+            throw "Unable to locate a parent element to be removed"; //throws an error if loops back to BODY
+        }
 
-			if( element.descrip == deleteDesc && (element.amount == deleteAmount || element.amount == -deleteAmount) && element.date == deleteDate ){
+        finance.addedEntries.forEach(function(element) {
 
-				var idx = finance.addedEntries.indexOf(element);
-				finance.addedEntries.splice(idx, 1);
-			}
+            if (element.descrip == deleteDesc && (element.amount == deleteAmount || element.amount == -deleteAmount) && element.date == deleteDate) {
 
-		});
-		
-		finance.recountBalance(); //calculates the balance again after changes made
-	},
+                var idx = finance.addedEntries.indexOf(element);
+                finance.addedEntries.splice(idx, 1);
+            }
 
-	validateForm: function(){
+        });
 
-		var i;
+        finance.recountBalance(); //calculates the balance again after changes made
+    },
 
-		var self = buttonControls;
+    validateForm: function() {
 
-		var regExpDate = /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/;
+        var i;
 
-		var regExpSum = /\D/;
+        var self = buttonControls;
 
-		for( i=0; i< self.forms.length; i++ ){
+        var regExpDate = /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/;
 
-			if(	self.forms[i].value.trim() == "" || ( isNaN(parseInt(self.forms[0].value)) || isNaN(parseInt(self.forms[1].value)))){
+        var regExpSum = /\D/;
 
-				return false;
+        for (i = 0; i < self.forms.length; i++) {
 
-			}else if( regExpDate.test(self.forms[0].value) && !regExpSum.test(self.forms[1].value) ){ //regExp tests
+            if (self.forms[i].value.trim() == "" || (isNaN(parseInt(self.forms[0].value)) || isNaN(parseInt(self.forms[1].value)))) {
 
-					return true; 
+                return false;
 
-			}else{
+            } else if (regExpDate.test(self.forms[0].value) && !regExpSum.test(self.forms[1].value)) { //regExp tests
 
-				return false;
+                return true;
 
-			}
+            } else {
 
-		}
+                return false;
 
-	},
+            }
 
-	submitEntry: function (){
+        }
 
-		if( !buttonControls.validateForm() ){
+    },
 
-			return;
-		}
+    submitEntry: function() {
 
-			//creates and appends all the DOM for the new entry
+        if (!buttonControls.validateForm()) {
 
-		var ul = document.getElementById("allEntries");
+            return;
+        }
 
-		var newLi = document.createElement("LI");
+        //creates and appends all the DOM for the new entry
 
-		var newExpWrap = document.createElement("DIV");
+        var ul = document.getElementById("allEntries");
 
-		var newEntryF = document.createElement("DIV");
+        var newLi = document.createElement("LI");
 
-		var newEntryFP = document.createElement("P");
+        var newExpWrap = document.createElement("DIV");
 
-		var newEntryFH2 = document.createElement("H2");
+        var newEntryF = document.createElement("DIV");
 
-		var newEntryS = document.createElement("DIV");
+        var newEntryFP = document.createElement("P");
 
-		var newEntrySH3 = document.createElement("H3");
+        var newEntryFH2 = document.createElement("H2");
 
-		var newEntryT = document.createElement("DIV");
+        var newEntryS = document.createElement("DIV");
 
-		var newEntryTImg = document.createElement("DIV");
+        var newEntrySH3 = document.createElement("H3");
 
-		var trashCans = document.getElementsByClassName("removeEntry");
+        var newEntryT = document.createElement("DIV");
 
-		var forCounter;
+        var newEntryTImg = document.createElement("DIV");
 
-		newEntryF.classList.add("entryFirst");
+        var trashCans = document.getElementsByClassName("removeEntry");
 
-		newEntryFP.classList.add("date");
+        var forCounter;
 
-		newEntryFH2.classList.add("spendingLog");
+        newEntryF.classList.add("entryFirst");
 
-		newEntryS.classList.add("entrySecond");
+        newEntryFP.classList.add("date");
 
-		newEntrySH3.classList.add("expenseExplanation");
+        newEntryFH2.classList.add("spendingLog");
 
-		newEntryT.classList.add("entryThird");
+        newEntryS.classList.add("entrySecond");
 
-		newEntryTImg.classList.add("removeEntry");
+        newEntrySH3.classList.add("expenseExplanation");
 
-		newExpWrap.classList.add("expenseWrap");
+        newEntryT.classList.add("entryThird");
 
-		newEntryF.appendChild(newEntryFP);
-		newEntryF.appendChild(newEntryFH2);
-		newExpWrap.appendChild(newEntryF);
-		newEntryS.appendChild(newEntrySH3);
-		newExpWrap.appendChild(newEntryS);
-		newEntryT.appendChild(newEntryTImg);
-		newExpWrap.appendChild(newEntryT);
-		newLi.appendChild(newExpWrap);
-		ul.appendChild(newLi);
-		
+        newEntryTImg.classList.add("removeEntry");
 
-		var date = document.getElementById("formDate").value.trim();
-		var decsr = document.getElementById("formDescr").value.trim();
-		var originalName = document.getElementById("formDescr").value.trim();
-		var amount = document.getElementById("formAmount").value.replace(/\s+/, "");
-		var exType = buttonControls.exType;
-		var repeatEntry = 0;
+        newExpWrap.classList.add("expenseWrap");
 
-		//checks if there's an entry with same preferences already existing adds +1 to description if so
+        newEntryF.appendChild(newEntryFP);
+        newEntryF.appendChild(newEntryFH2);
+        newExpWrap.appendChild(newEntryF);
+        newEntryS.appendChild(newEntrySH3);
+        newExpWrap.appendChild(newEntryS);
+        newEntryT.appendChild(newEntryTImg);
+        newExpWrap.appendChild(newEntryT);
+        newLi.appendChild(newExpWrap);
+        ul.appendChild(newLi);
 
 
-		finance.addedEntries.forEach(function(element){
+        var date = document.getElementById("formDate").value.trim();
+        var decsr = document.getElementById("formDescr").value.trim();
+        var originalName = document.getElementById("formDescr").value.trim();
+        var amount = document.getElementById("formAmount").value.replace(/\s+/, "");
+        var exType = buttonControls.exType;
+        var repeatEntry = 0;
 
-			if (( element.originalName == decsr || element.descrip == decsr ) && element.date == date && ( element.amount == amount || element.amount == -amount ) ){ 
+        //checks if there's an entry with same preferences already existing adds +1 to description if so
 
-					repeatEntry++;
-					
-				finance.addedEntries.forEach(function(element){	
 
-					 while ( decsr+" ("+repeatEntry+")" == element.descrip ){
+        finance.addedEntries.forEach(function(element) {
 
-					 	repeatEntry++;
+            if ((element.originalName == decsr || element.descrip == decsr) && element.date == date && (element.amount == amount || element.amount == -amount)) {
 
-					 }
+                repeatEntry++;
 
-				});
-				
-			}
+                finance.addedEntries.forEach(function(element) {
 
-		});
+                    while (decsr + " (" + repeatEntry + ")" == element.descrip) {
 
-		repeatEntry > 0 ? decsr = decsr+" ("+repeatEntry+")" : {};
+                        repeatEntry++; //loops to add numerals till name is unique
 
+                    }
 
-		//inner values picked up from the submitted form
-		newEntrySH3.innerText = decsr;
-		newEntryFP.innerText = date;
-		newEntryFH2.innerText = amount+" CZK";
+                });
 
-		if( exType == "income" || exType == "expense"  ){ //assign the color to expense/income
+            }
 
-			exType == "income"? newEntryFH2.classList.add("income") : newEntryFH2.classList.add("expense");
+        });
 
-		}
+        repeatEntry > 0 ? decsr = decsr + " (" + repeatEntry + ")" : {}; //adds numeral in case repeats detected
 
 
-		for( forCounter = 0; forCounter < trashCans.length; forCounter++ ){
+        //inner values picked up from the submitted form
+        newEntrySH3.innerText = decsr;
+        newEntryFP.innerText = date;
+        newEntryFH2.innerText = amount + " CZK";
 
-			trashCans[forCounter].addEventListener("click", buttonControls.removeEntry);
+        if (exType == "income" || exType == "expense") { //assign the color to expense/income
 
-		}
+            exType == "income" ? newEntryFH2.classList.add("income") : newEntryFH2.classList.add("expense");
 
-		finance.addedEntries[finance.addedEntries.length] = new finance.financeObject(date, amount, decsr, exType, originalName, finance.recountBalance) //Obj creation
+        }
 
-		document.getElementById("formDate").value = "";
-		document.getElementById("formDescr").value = "";
-		document.getElementById("formDescr").value = "";
-		document.getElementById("formAmount").value = "";
 
-		buttonControls.closeIt.click();
+        for (forCounter = 0; forCounter < trashCans.length; forCounter++) {
 
-		}
+            trashCans[forCounter].addEventListener("click", buttonControls.removeEntry); //events for trashicns
+
+        }
+
+        finance.addedEntries[finance.addedEntries.length] = new finance.financeObject(date, amount, decsr, exType, originalName, finance.recountBalance) //Obj creation
+
+        document.getElementById("formDate").value = "";
+        document.getElementById("formDescr").value = "";
+        document.getElementById("formDescr").value = "";
+        document.getElementById("formAmount").value = "";
+
+        buttonControls.closeIt.click();
+
+    }
 
 };
 
 buttonControls.assignEvent();
-
-
-
-
